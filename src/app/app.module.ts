@@ -14,6 +14,7 @@ import { HomeComponent } from './pages/home/home.component'
 import { TopBarComponent } from './components/top-bar/top-bar.component'
 import { TaskListComponent } from './components/task-list/task-list.component'
 import { TaskDetailComponent } from './pages/task-detail/task-detail.component'
+import { OverviewComponent } from './pages/overview/overview.component'
 import { AddTaskComponent } from './pages/add-task/add-task.component'
 import { EditTaskComponent } from './pages/edit-task/edit-task.component'
 import { PhotoViewerComponent } from './pages/photo-viewer/photo-viewer.component'
@@ -42,6 +43,7 @@ import { DatePipe } from '@angular/common'
     EditTaskComponent,
     PhotoViewerComponent,
     AboutUsComponent,
+    OverviewComponent,
   ],
   providers: [TaskService, DatePipe],
   schemas: [NO_ERRORS_SCHEMA],
