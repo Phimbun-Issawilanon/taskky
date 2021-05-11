@@ -49,9 +49,15 @@ formatString(str: string, ...val: string[]) {
   }
   return str;
 }
-  toDetail(id : number) {
-    this.router.navigate(['/detail', id ]);
-}
-
+  toDetail(name : string) {
+    let taskss = this.taskService.searchTasks(name)
+    console.log(taskss+"h");
+    this.router.navigate(['/detail', taskss.id ]);
+  }
+  undo(name : string) {
+    let taskss = this.taskService.searchTasks(name)
+    console.log(taskss+"h");
+    this.router.navigate(['/detail', taskss.id ]);
+  }
 }
  

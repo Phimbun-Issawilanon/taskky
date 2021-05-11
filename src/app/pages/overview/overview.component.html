@@ -1,11 +1,27 @@
 <StackLayout>
-    <GridLayout rows="auto,*" columns="*,*" class="list-card">
-    <Label row="0" col="0" text="ภาพรวมของงาน"></Label>
-    <Button row="1" col="0" [text]="'งานที่เสร็จสมบูรณ์: '+taskComplete.length" textAlignment="center"
-             width="200" height="150"  (tap)="completed()">
-    </Button>
-    <Button row="1" col="1" [text]="'งานที่รอดำเนินการ: '+task.length" textAlignment="center"
-             width="200" height="150"  (tap)="pending()">
-    </Button>
-</GridLayout>
+    <Label  text="ภาพรวมของงาน"></Label>
+    <GridLayout rows="*,*,4*" columns="*,*" class="list-card">
+            <Button  row="0" col="0"[text]="'งานที่เสร็จสมบูรณ์: '+taskComplete.length" textAlignment="center"
+                 width="200" height="150"  (tap)="completed()">
+            </Button>
+            <Button   row="0" col="1"[text]="'งานที่รอดำเนินการ: '+task.length" textAlignment="center"
+                 width="200" height="150"  (tap)="pending()">
+            </Button>
+    <Label  row="1"  text="งานในสัปดาห์หน้า"></Label>
+    <ListView row="2"  [items]="tasks" class="list-group" separatorColor="transparent" height="100%">
+        <ng-template let-item="item" let-i="index">
+            <StackLayout>
+                <CardView radius="25" ripple="true">
+                    <GridLayout rows="*,*,*" columns="*,40" class="list-card">
+                        <Label class="header" row="0" col="0" [text]="item.name" (tap)="toDetail(item.id)"></Label>
+                        <Label class="duedate" row="1" col="0" colSpan="2" (tap)="toDetail(item.id)"
+                            [text]="convertDatetime(item.due_date)" horizontalAlignment="left">
+                        </Label>
+                       
+                    </GridLayout>
+                </CardView>
+            </StackLayout>
+        </ng-template>
+    </ListView>
+    </GridLayout>
 </StackLayout>

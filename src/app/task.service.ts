@@ -135,4 +135,8 @@ export class TaskService {
             },
         ])
     }
+    searchTasks(term: string) {
+        console.log(this.tasks);
+        return this.tasks.filter(x => x.name == term)[0];
+      }
 }
