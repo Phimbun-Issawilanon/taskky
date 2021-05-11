@@ -1,4 +1,11 @@
 <StackLayout>
-    <Label text="ภาพรวมของงาน"></Label>
-    <Label [text]="'งานที่รอดำเนินการ: '+task.length" textAlignment="center"></Label>
+    <GridLayout rows="auto,*" columns="*,*" class="list-card">
+    <Label row="0" col="0" text="ภาพรวมของงาน"></Label>
+    <Button row="1" col="0" [text]="'งานที่เสร็จสมบูรณ์: '+taskComplete.length" textAlignment="center"
+             width="200" height="150"  (tap)="completed()">
+    </Button>
+    <Button row="1" col="1" [text]="'งานที่รอดำเนินการ: '+task.length" textAlignment="center"
+             width="200" height="150"  (tap)="pending()">
+    </Button>
+</GridLayout>
 </StackLayout>

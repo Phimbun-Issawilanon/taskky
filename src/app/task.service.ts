@@ -3,24 +3,28 @@ import * as AppSettings from '@nativescript/core/application-settings'
 import { convertHSLToRGBColor } from '@nativescript/core/css/parser';
 import { LocalNotifications } from '@nativescript/local-notifications';
 import { Task } from './task'
-
+import { TaskComplete } from './taskComplete'
 @Injectable({
     providedIn: 'root'
 })
 export class TaskService {
     private tasks: Array<any>;
-
+    private tasksComplete: Array<any>;
+    complete: any;
     public constructor() { 
         const openFirstTime = AppSettings.getBoolean("FistTime");
 
         /* check using app first time or not */
         if(openFirstTime == null || openFirstTime == undefined){
             this.tasks = []
+            this.tasksComplete = []
             AppSettings.setString("TaskData", JSON.stringify(this.tasks)); // store tasks data
+            AppSettings.setString("TaskCompletes", JSON.stringify(this.tasksComplete));
             AppSettings.setBoolean("FistTime", false);
         }
         else {
             this.tasks = JSON.parse(AppSettings.getString("TaskData")); // get task data that store in app settings
+            this.tasksComplete = JSON.parse(AppSettings.getString("TaskCompletes"));
             this.tasks.forEach((task) => {task.due_date = new Date(Date.parse(task.due_date))}) // convert from string to Date type
         }
     }
@@ -31,6 +35,10 @@ export class TaskService {
 
     public getTasks(): Array<any> {
         return this.tasks;
+    }
+
+    public getTasksComplete(): Array<any> {
+        return this.tasksComplete;
     }
 
     public getTask(id: number){
@@ -61,7 +69,23 @@ export class TaskService {
             this.setNotify(last_id+1, name, datetime)
         }
     }
-
+    public addTaskComplete(id: number){
+        let last_id: number;
+        let complete: any;
+        this.complete = this.tasks.filter(x => x.id == id)[0];
+        this.tasksComplete.length > 0 ? last_id=this.tasksComplete[this.tasksComplete.length-1].id : last_id=0
+        this.tasksComplete.push(
+            {
+              'id': last_id+1,
+              'name': this.tasks.filter(x => x.id == id)[0].name,
+              'detail': this.tasks.filter(x => x.id == id)[0].detail,
+              'due_date': this.tasks.filter(x => x.id == id)[0].due_date,
+              'photo': this.tasks.filter(x => x.id == id)[0].photo,
+            }
+        );
+        this.tasksComplete.map(taskComplete => taskComplete.id = this.tasksComplete.indexOf(taskComplete))
+        AppSettings.setString("TaskCompletes", JSON.stringify(this.tasksComplete));
+    }
     public editTask(id:number, name: string, detail:string, datetime:Date, photoPath:Array<string>, notify:boolean, overdue:boolean){
         this.tasks[id] = {
             'id': id,

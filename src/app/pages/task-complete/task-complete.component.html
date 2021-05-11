@@ -1,0 +1,19 @@
+<StackLayout>
+    <ListView [items]="taskComplete" class="list-group" separatorColor="transparent" height="100%">
+        <ng-template let-item="item" let-i="index">
+            <StackLayout>
+                <CardView radius="25" ripple="true">
+                    <GridLayout rows="*,*,*" columns="*" class="list-card">
+                        <Label class="header" row="0" col="0" [text]="item.name" ></Label>
+                        <Label class="duedate" row="1" col="0" colSpan="2" 
+                            [text]="convertDatetime(item.due_date)" horizontalAlignment="left">
+                        </Label>
+                        <Label class="{{ item.overdue ? 'overdue':'countdown' }}" row="2" col="0" colSpan="2" 
+                         text="success!!!">
+                    </Label>
+                    </GridLayout>
+                </CardView>
+            </StackLayout>
+        </ng-template>
+    </ListView>
+</StackLayout>
