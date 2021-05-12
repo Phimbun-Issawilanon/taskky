@@ -1,6 +1,61 @@
-Label {
-    margin: 20px;
+.heading {
+    font-size: 22;
+    font-weight: 600;
+    color: rgb(36, 28, 28);
+    margin: 70px 0px 20px 30px;
+}
+
+ListView {
+    margin: 30px;
+    color: rgb(43, 40, 40);
+}
+
+GridLayout.card {
+    padding: 30px;
+    border-radius: 25px;
+    background-color: #91e9ff;
+}
+GridLayout.list-card {
+    padding: 30px;
+    border-radius: 25px;
+    background-color: #f8f9fa;
+}
+
+StackLayout {
+    margin-bottom: 30px;
 }
 
 
+.header {
+    font-size: 15px;
+    font-weight: 600;
+    color: black;
+    margin: 20px 0px 10px 40px;
+}
 
+.countdown {
+    font-size: 15px;
+    text-align: right;
+    font-weight: 500;
+}
+
+.overdue {
+    font-size: 15px;
+    text-align: right;
+    font-weight: 500;
+    color: rgb(165, 34, 34);
+}
+
+CardView {
+    margin: 0px 10px 10px 5px;
+    background-color: #f5f5ff;
+}
+
+.duedate {
+    width: auto;
+    font-size: 13px;
+    border-radius: 50px;
+    border-width: 1;
+    text-align: center;
+    border-color: #38ABFD;
+}

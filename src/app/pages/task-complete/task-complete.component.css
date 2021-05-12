@@ -1,3 +1,10 @@
+StackLayout {
+    background-image: url('~/app/images/background-bubble.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
 ListView {
     margin: 30px;
     color: rgb(43, 40, 40);
@@ -47,14 +54,3 @@ CardView {
 }
 
 
-.checklist {
-    color: white;
-    border-color: #38ABFD;
-    border-width: 2;
-}
-
-.check {
-    border-color: #38ABFD;
-    border-width: 2;
-    color: rgb(221, 219, 219);
-}

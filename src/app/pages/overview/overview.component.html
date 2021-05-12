@@ -1,14 +1,13 @@
 <top-bar></top-bar>
 <StackLayout>
-    <Label  text="ภาพรวมของงาน"></Label>
-    <GridLayout rows="*,*,4*" columns="*,*" class="list-card">
-            <Button  row="0" col="0"[text]="'งานที่เสร็จสมบูรณ์: '+taskComplete.length" textAlignment="center"
+    <GridLayout rows="*,*,4*" columns="*,*" class="card">
+            <Button  row="0" col="0"[text]="'งานที่เสร็จสมบูรณ์: '+taskComplete.length" textAlignment="center" class="header"
                  width="200" height="150"  (tap)="completed()">
             </Button>
-            <Button   row="0" col="1"[text]="'งานที่รอดำเนินการ: '+task.length" textAlignment="center"
+            <Button   row="0" col="1"[text]="'งานที่รอดำเนินการ: '+task.length" textAlignment="center" class="header"
                  width="200" height="150"  (tap)="pending()">
             </Button>
-    <Label  row="1"  text="งานในสัปดาห์หน้า"></Label>
+    <Label  row="1"  colSpan="2" text="งานในสัปดาห์หน้า" textWrap="true" class="heading"></Label>
     <ListView row="2" colSpan="2" [items]="tasks" class="list-group" separatorColor="transparent" height="100%">
         <ng-template let-item="item" let-i="index">
             <StackLayout>
