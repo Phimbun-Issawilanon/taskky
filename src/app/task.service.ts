@@ -11,6 +11,7 @@ export class TaskService {
     private tasks: Array<any>;
     private tasksComplete: Array<any>;
     complete: any;
+    tasksComp: any;
     public constructor() { 
         const openFirstTime = AppSettings.getBoolean("FistTime");
 
@@ -19,12 +20,12 @@ export class TaskService {
             this.tasks = []
             this.tasksComplete = []
             AppSettings.setString("TaskData", JSON.stringify(this.tasks)); // store tasks data
-            AppSettings.setString("TaskCompletes", JSON.stringify(this.tasksComplete));
+            AppSettings.setString("TaskCompletes", JSON.stringify(this.tasksComplete));// store tasks complete data
             AppSettings.setBoolean("FistTime", false);
         }
         else {
             this.tasks = JSON.parse(AppSettings.getString("TaskData")); // get task data that store in app settings
-            this.tasksComplete = JSON.parse(AppSettings.getString("TaskCompletes"));
+            this.tasksComplete = JSON.parse(AppSettings.getString("TaskCompletes")); // get  tasks complete data that store in app settings
             this.tasks.forEach((task) => {task.due_date = new Date(Date.parse(task.due_date))}) // convert from string to Date type
         }
     }
@@ -71,16 +72,17 @@ export class TaskService {
     }
     public addTaskComplete(id: number){
         let last_id: number;
+        this.tasksComp=this.tasks.filter(x => x.id == id)[0];
         this.tasksComplete.length > 0 ? last_id=this.tasksComplete[this.tasksComplete.length-1].id : last_id=0
         this.tasksComplete.push(
             {
               'id': last_id+1,
-              'name': this.tasks.filter(x => x.id == id)[0].name,
-              'detail': this.tasks.filter(x => x.id == id)[0].detail,
-              'due_date': this.tasks.filter(x => x.id == id)[0].due_date,
-              'photo': this.tasks.filter(x => x.id == id)[0].photo,
-              'notify': this.tasks.filter(x => x.id == id)[0].notify,
-              'overdue': this.tasks.filter(x => x.id == id)[0].overdue,
+              'name': this.tasksComp.name,
+              'detail': this.tasksComp.detail,
+              'due_date': this.tasksComp.due_date,
+              'photo': this.tasksComp.photo,
+              'notify': this.tasksComp.notify,
+              'overdue': this.tasksComp.overdue,
             }
         );
         this.tasksComplete.sort((a, b) => a.due_date < b.due_date ? -1 : a.due_date > b.due_date ? 1 : 0) 
@@ -138,9 +140,9 @@ export class TaskService {
         ])
     }
     searchTasks(term: string) {
-        console.log(this.tasks);
         return this.tasks.filter(x => x.name == term)[0];
       }
+
     public deleteTaskComplete(id:number){
         for(let i = 0; i < this.tasksComplete.length; i++) {
             if(this.tasksComplete[i].id == id) {

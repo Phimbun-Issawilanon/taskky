@@ -2,8 +2,6 @@ import { Component} from "@angular/core";
 import { ActivatedRoute, Router} from '@angular/router';
 import { Task } from "~/app/task";
 import { TaskService } from "../../task.service";
-import { Location} from "@angular/common";
-import { Subscription, interval } from 'rxjs';
 import { DatePipe } from '@angular/common'
 @Component ({
     selector: "Overview",
@@ -16,12 +14,11 @@ export class OverviewComponent {
     task;
     tasks: Array<any>;
     taskComplete;
-    private updateSubscription: Subscription;
    day: any;
+  taskNext: any;
     
    constructor(public route: ActivatedRoute,
               public taskService: TaskService,
-              public location: Location,
               public router: Router,
               public datepipe: DatePipe, ) {}
 
@@ -29,26 +26,42 @@ export class OverviewComponent {
     this.task = this.taskService.getTasks();
     this.taskComplete = this.taskService.getTasksComplete();
     let now = new Date(); 
-    let nextWeekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()+(7 - now.getDay())); 
-    let nextWeekEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate()+(13 - now.getDay()));
-    this.tasks=[];
+    let nextWeekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()+(7 - now.getDay())); //วันอาทิตย์ที่จะถึง
+    let nextWeekEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate()+(14 - now.getDay())); //วันเสาร์หน้า
+    this.tasks=[]; //เก็บ Task ที่ต้องทำในสัปดาห์หน้า
     let last_id: number;
     this.tasks.length > 0 ? last_id=this.tasks[this.tasks.length-1].id : last_id=0
     for ( this.index in this.task) {
-      this.day = this.task.filter(x => x.id == this.index)[0].due_date;
+      this.taskNext = this.task.filter(x => x.id == this.index)[0]
+      this.day = this.taskNext.due_date;
+      /*ตรวจสอบวันของงานว่าอยู่ภายในสัปดาห์หน้าหรือไม่*/ 
       if(nextWeekStart <= this.day && this.day <= nextWeekEnd){
         this.tasks.push({
         'id': last_id+1,
-        'name': this.task.filter(x => x.id == this.index)[0].name,
-        'detail': this.task.filter(x => x.id == this.index)[0].detail,
-        'due_date': this.task.filter(x => x.id == this.index)[0].due_date,
-        'photo': this.task.filter(x => x.id == this.index)[0].photo
+        'name': this.taskNext.name,
+        'detail': this.taskNext.detail,
+        'due_date': this.taskNext.due_date,
+        'photo': this.taskNext.photo
       });
     }
   }
- 
   return this.tasks
   }
+
+  toDetail(name : string) {
+    let taskss = this.taskService.searchTasks(name)
+    this.router.navigate(['/detail', taskss.id ]);
+  }
+  /*ไปหน้าcomplete task*/
+  completed(){
+    this.router.navigate(['/complete' ]);
+  
+  }
+  /*ไปหน้าเเรก*/ 
+  pending(){
+    this.router.navigate(['/']);
+  }
+
   public countdown(toDate : Date, id: number) {
     let now = new Date();
     let difference = toDate.getTime() - now.getTime(); // time difference in milliseconds
@@ -102,18 +115,6 @@ formatString(str: string, ...val: string[]) {
     }
     return str;
 }
-toDetail(name : string) {
-  let taskss = this.taskService.searchTasks(name)
-  this.router.navigate(['/detail', taskss.id ]);
-}
 
-completed(){
-  
-  this.router.navigate(['/complete' ]);
-
-}
-pending(){
-  this.router.navigate(['/']);
-}
 }
  

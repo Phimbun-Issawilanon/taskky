@@ -1,8 +1,6 @@
 import { Component} from "@angular/core";
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { TaskService } from "../../task.service";
-import { Location} from "@angular/common";
-import { Subscription, interval } from 'rxjs';
 import { DatePipe } from '@angular/common'
 
 
@@ -21,16 +19,26 @@ export class CompleteComponent {
     
    constructor(public route: ActivatedRoute,
               public taskService: TaskService,
-              public location: Location,
-              public router: Router,
               public datepipe: DatePipe) {}
 
   ngOnInit() {
-    this.task = this.taskService.getTasks();
-    
+    this.task = this.taskService.getTasks(); 
     this.taskComplete = this.taskService.getTasksComplete();
   }
-
+  /*เอา Task กลับไปยังงานที่ยังไม่ได้ทำ*/ 
+  undo(id: number) {
+    this.checklist_id = id
+    let undoTask = this.taskComplete.filter(x => x.id == id)[0];
+    setTimeout(() => {
+      this.taskService.addTask(undoTask.name, undoTask.detail, undoTask.due_date
+        ,undoTask.photo, undoTask.notify,undoTask.overdue) 
+      this.taskService.deleteTaskComplete(id);
+      this.checklist_id = undefined
+    }, 300);
+  }
+  delete(id){
+    this.taskService.deleteTaskComplete(id);
+  }
   public convertDatetime(datetime: Date){
     let now = Date.now()
     let date_now = this.datepipe.transform(now, 'dd/MM/yyyy')
@@ -50,20 +58,6 @@ formatString(str: string, ...val: string[]) {
   }
   return str;
 }
- 
-  undo(id: number) {
-    this.checklist_id = id
-    let undoTask = this.taskComplete.filter(x => x.id == id)[0];
-    
-    setTimeout(() => {
-      this.taskService.addTask(undoTask.name, undoTask.detail, undoTask.due_date
-        ,undoTask.photo, undoTask.notify,undoTask.overdue)
-      this.taskService.deleteTaskComplete(id);
-      this.checklist_id = undefined
-    }, 300);
-  }
-  delete(id){
-    this.taskService.deleteTaskComplete(id);
-}
+
 }
  

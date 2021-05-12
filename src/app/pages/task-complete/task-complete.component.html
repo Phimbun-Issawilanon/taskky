@@ -10,7 +10,7 @@
                         </Button>
                         <Button row="1" col="1" class="fas" text="&#xf2ed;" width="35" height="35" (tap)="delete(item.id)">
                         </Button>
-                        <Label class="duedate" row="1"   [text]="item.due_date" horizontalAlignment="left" > </Label>
+                        <Label class="duedate" row="1"   [text]="convertDatetime(item.due_date)" horizontalAlignment="left" > </Label>
                         <Label  row="2" col="0" colSpan="2" text="success" horizontalAlignment="right" > </Label>
                     </GridLayout>
                 </CardView>
