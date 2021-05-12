@@ -13,9 +13,11 @@ import { DatePipe } from '@angular/common'
     
 })
 export class CompleteComponent {
-    task;
-    taskComplete;
-    private updateSubscription: Subscription;
+  task;
+  taskComplete;
+    
+  checklist_id: number;
+
     
    constructor(public route: ActivatedRoute,
               public taskService: TaskService,
@@ -26,10 +28,9 @@ export class CompleteComponent {
   ngOnInit() {
     this.task = this.taskService.getTasks();
     
-    this.updateSubscription = interval(1000).subscribe(
-      (val) => {this.taskComplete = this.taskService.getTasksComplete();}
-  );
+    this.taskComplete = this.taskService.getTasksComplete();
   }
+
   public convertDatetime(datetime: Date){
     let now = Date.now()
     let date_now = this.datepipe.transform(now, 'dd/MM/yyyy')
@@ -51,13 +52,20 @@ formatString(str: string, ...val: string[]) {
 }
   toDetail(name : string) {
     let taskss = this.taskService.searchTasks(name)
-    console.log(taskss+"h");
+    
     this.router.navigate(['/detail', taskss.id ]);
   }
-  undo(name : string) {
-    let taskss = this.taskService.searchTasks(name)
-    console.log(taskss+"h");
-    this.router.navigate(['/detail', taskss.id ]);
+  undo(id: number) {
+    this.checklist_id = id
+    let undoTask = this.taskComplete.filter(x => x.id == id)[0];
+    
+    setTimeout(() => {
+      this.taskService.addTask(undoTask.name, undoTask.detail, undoTask.due_date
+        ,undoTask.photo, undoTask.notify,undoTask.overdue)
+      this.taskService.deleteTaskComplete(id);
+      this.checklist_id = undefined
+    }, 300);
   }
+
 }
  

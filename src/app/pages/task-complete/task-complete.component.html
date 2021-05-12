@@ -10,7 +10,7 @@
                             text="&#xf0e2;" width="35" height="35" (tap)="undo(item.id)">
                         </Button>
                         <Label class="duedate" row="1" col="0" colSpan="2" 
-                        (tap)="toDetail(item.name)" [text]="convertDatetime(item.due_date)" horizontalAlignment="left" >
+                        (tap)="toDetail(item.name)" [text]="item.due_date" horizontalAlignment="left" >
                         </Label>
                         <Label  row="2" col="0" colSpan="2" text="success" horizontalAlignment="right" (tap)="toDetail(item.name)"> </Label>
                     </GridLayout>
