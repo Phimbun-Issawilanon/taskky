@@ -3,7 +3,7 @@ import * as AppSettings from '@nativescript/core/application-settings'
 import { convertHSLToRGBColor } from '@nativescript/core/css/parser';
 import { LocalNotifications } from '@nativescript/local-notifications';
 import { Task } from './task'
-import { TaskComplete } from './taskComplete'
+
 @Injectable({
     providedIn: 'root'
 })
@@ -71,8 +71,6 @@ export class TaskService {
     }
     public addTaskComplete(id: number){
         let last_id: number;
-        let complete: any;
-        this.complete = this.tasks.filter(x => x.id == id)[0];
         this.tasksComplete.length > 0 ? last_id=this.tasksComplete[this.tasksComplete.length-1].id : last_id=0
         this.tasksComplete.push(
             {
@@ -81,10 +79,14 @@ export class TaskService {
               'detail': this.tasks.filter(x => x.id == id)[0].detail,
               'due_date': this.tasks.filter(x => x.id == id)[0].due_date,
               'photo': this.tasks.filter(x => x.id == id)[0].photo,
+              'notify': this.tasks.filter(x => x.id == id)[0].notify,
+              'overdue': this.tasks.filter(x => x.id == id)[0].overdue,
             }
         );
+        this.tasksComplete.sort((a, b) => a.due_date < b.due_date ? -1 : a.due_date > b.due_date ? 1 : 0) 
         this.tasksComplete.map(taskComplete => taskComplete.id = this.tasksComplete.indexOf(taskComplete))
         AppSettings.setString("TaskCompletes", JSON.stringify(this.tasksComplete));
+      
     }
     public editTask(id:number, name: string, detail:string, datetime:Date, photoPath:Array<string>, notify:boolean, overdue:boolean){
         this.tasks[id] = {
@@ -139,4 +141,15 @@ export class TaskService {
         console.log(this.tasks);
         return this.tasks.filter(x => x.name == term)[0];
       }
+    public deleteTaskComplete(id:number){
+        for(let i = 0; i < this.tasksComplete.length; i++) {
+            if(this.tasksComplete[i].id == id) {
+              this.tasksComplete.splice(i, 1);
+              this.tasksComplete.sort((a, b) => a.due_date < b.due_date ? -1 : a.due_date > b.due_date ? 1 : 0)
+              break;
+            }
+        }
+        this.tasksComplete.map(taskComplete => taskComplete.id = this.tasksComplete.indexOf(taskComplete))
+        AppSettings.setString("TaskCompletes", JSON.stringify(this.tasksComplete));
+    }
 }
