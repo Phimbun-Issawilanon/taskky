@@ -8,6 +8,17 @@
     </ActionItem>
 </ActionBar>
 
+<!-- complete task -->
+<ActionBar *ngIf="router.url === '/complete' " flat="true" title="Complete Task">
+    <NavigationButton android.systemIcon="ic_menu_back" text="Back" (tap)="back_previous_page()"></NavigationButton>
+    <ActionItem android.systemIcon="ic_menu_home" ios.position="right" (tap)="homepage()"></ActionItem>
+</ActionBar>
+
+<!-- overview -->
+<ActionBar *ngIf="router.url === '/overview' " flat="true" title="overview">
+    <NavigationButton android.systemIcon="ic_menu_back" text="Back" (tap)="back_previous_page()"></NavigationButton>
+</ActionBar>
+
 <!-- task detail -->
 <ActionBar *ngIf="router.url === '/detail/'+id" flat="true" title="Detail">
     <NavigationButton android.systemIcon="ic_menu_back" text="Back" [nsRouterLink]="['/']"></NavigationButton>
@@ -29,3 +40,5 @@
 <ActionBar *ngIf="image_path" flat="true" [title]="title">
     <NavigationButton android.systemIcon="ic_menu_back" text="Back" (tap)="back_previous_page()"></NavigationButton>
 </ActionBar>
+
+

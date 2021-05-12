@@ -50,11 +50,7 @@ formatString(str: string, ...val: string[]) {
   }
   return str;
 }
-  toDetail(name : string) {
-    let taskss = this.taskService.searchTasks(name)
-    
-    this.router.navigate(['/detail', taskss.id ]);
-  }
+ 
   undo(id: number) {
     this.checklist_id = id
     let undoTask = this.taskComplete.filter(x => x.id == id)[0];
@@ -66,6 +62,8 @@ formatString(str: string, ...val: string[]) {
       this.checklist_id = undefined
     }, 300);
   }
-
+  delete(id){
+    this.taskService.deleteTaskComplete(id);
+}
 }
  

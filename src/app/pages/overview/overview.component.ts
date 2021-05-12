@@ -46,7 +46,7 @@ export class OverviewComponent {
       });
     }
   }
-  console.log(this.tasks)
+ 
   return this.tasks
   }
   public countdown(toDate : Date, id: number) {

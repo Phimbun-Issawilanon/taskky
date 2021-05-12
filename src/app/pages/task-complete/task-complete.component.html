@@ -1,18 +1,21 @@
+<top-bar></top-bar>
 <StackLayout>
     <ListView [items]="taskComplete" class="list-group" separatorColor="transparent" height="100%">
         <ng-template let-item="item" let-i="index">
             <StackLayout>
                 <CardView radius="25" ripple="true">
                     <GridLayout rows="*,*,*" columns="*,40" class="list-card">
-                        <Label class="header" row="0" col="0" (tap)="toDetail(item.name)" [text]="item.name" ></Label>
+                        <Label class="header" row="0" col="0"  [text]="item.name" ></Label>
                         <Button row="0" col="1" backgroundColor="{{ checklist_id == item.id ? '#38ABFD': '#F1F1F4' }}" 
                             borderRadius="50" class="fas"
                             text="&#xf0e2;" width="35" height="35" (tap)="undo(item.id)">
                         </Button>
-                        <Label class="duedate" row="1" col="0" colSpan="2" 
-                        (tap)="toDetail(item.name)" [text]="item.due_date" horizontalAlignment="left" >
-                        </Label>
-                        <Label  row="2" col="0" colSpan="2" text="success" horizontalAlignment="right" (tap)="toDetail(item.name)"> </Label>
+                        <Button row="1" col="1" backgroundColor="{{ checklist_id == item.id ? '#38ABFD': '#F1F1F4' }}" 
+                            borderRadius="50" class="fas"
+                            text="&#xf2ed;" width="35" height="35" (tap)="delete(item.id)">
+                        </Button>
+                        <Label class="duedate" row="1"   [text]="item.due_date" horizontalAlignment="left" > </Label>
+                        <Label  row="2" col="0" colSpan="2" text="success" horizontalAlignment="right" > </Label>
                     </GridLayout>
                 </CardView>
             </StackLayout>

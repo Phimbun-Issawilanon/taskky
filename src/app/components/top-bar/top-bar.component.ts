@@ -56,6 +56,9 @@ export class TopBarComponent {
     edit(id){
         this.router.navigate(['/edit', id ]);
     }
+    homepage(){
+        this.router.navigate(['/']);
+    }
 
     delete(id){
         const confirmOptions = {
